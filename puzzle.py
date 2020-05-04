@@ -110,6 +110,15 @@ class Astar:
                 nextNode=target
         return nextNode
     
+    def getNextNode_zero(self):
+        minimum=100
+        for target in self.openlist:
+            guess=target.g
+            if guess<=minimum:
+                minimum=guess
+                nextNode=target
+        return nextNode
+    
     def not_in_close(self,node):
         for completedNode in self.closelist:
             if same(node,completedNode):
@@ -133,10 +142,22 @@ class Astar:
         self.currentNode=self.getNextNode()
         self.openlist.remove(self.currentNode)
         
-    def search(self):
+    def searchCurrentNode_zero(self):
+        self.currentNode.find_neighbors()
+        self.closelist.append(self.currentNode)
+        for neighbor in self.currentNode.neighbors:
+            if self.not_in_open(neighbor) and self.not_in_close(neighbor):
+                self.openlist.append(neighbor)
+        self.currentNode=self.getNextNode_zero()
+        self.openlist.remove(self.currentNode)
+        
+    def search(self,flag):
         self.currentNode=self.startNode
         while(not same(self.currentNode,self.endNode)):
-            self.searchCurrentNode()
+            if flag==0:
+                self.searchCurrentNode_zero()
+            else:
+                self.searchCurrentNode()
             self.currentNode.display()
             if len(self.openlist)==0:
                 print("No answers")
@@ -148,11 +169,19 @@ class Astar:
 
 if __name__ == "__main__":
     startpoint=[["0","0","0"],["0","0","0"],["0","0","0"]]
-    for i in range(3):
-        for j in range(3):
-            index=i*3+j+1
-            startpoint[i][j]=sys.argv[index]  
+    flag=1
+    if sys.argv[1]=="0":
+        flag=0
+        for i in range(3):
+            for j in range(3):
+                index=i*3+j+2
+                startpoint[i][j]=sys.argv[index]
+    else:
+        for i in range(3):
+            for j in range(3):
+                index=i*3+j+1
+                startpoint[i][j]=sys.argv[index]  
     a=Astar()
     a.startNode=Node(startpoint)
     a.startNode.display()
-    a.search()
+    a.search(flag)
