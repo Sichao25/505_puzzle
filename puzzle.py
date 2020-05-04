@@ -41,6 +41,8 @@ class Node:
             for j in range(3):
                 print(" "+self.puzzle[i][j],end="")
             print("\n")
+        print("\n")
+        print("\n")
     
     def create_neighbor(self,x,y,newx,newy):
         basic_puzzle=[["0","0","0"],["0","0","0"],["0","0","0"]]
