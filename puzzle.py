@@ -5,6 +5,7 @@ Created on Mon May  4 08:16:18 2020
 @author: Sichao
 """
 import copy
+import sys
 
 def manhatten(a,b,c,d):
     return abs(a-c)+abs(b-d)
@@ -92,7 +93,7 @@ class Node:
 
 class Astar:
     def __init__(self):
-        self.startNode=Node([["1","4","2"],["6","3","5"],["_","7","8"]])
+        self.startNode=None
         self.endNode=Node([["_","1","2"],["3","4","5"],["6","7","8"]])
         self.openlist=[]
         self.closelist=[]
@@ -144,5 +145,12 @@ class Astar:
     
 
 if __name__ == "__main__":
+    startpoint=[["0","0","0"],["0","0","0"],["0","0","0"]]
+    for i in range(3):
+        for j in range(3):
+            index=i*3+j+1
+            startpoint[i][j]=sys.argv[index]  
     a=Astar()
+    a.startNode=Node(startpoint)
+    a.startNode.display()
     a.search()
